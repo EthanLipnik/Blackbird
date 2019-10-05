@@ -12,7 +12,7 @@ import UIKit
 extension UIImage {
 	
 	public func histogram() -> UIImage? {
-		guard let beginImage = CIImage(image: self) else { print("No image to proccess"); return nil }
+		guard let beginImage = self.ciImage() else { print("No image to proccess"); return nil }
 		
 		guard let filter = CIFilter(name: "CIAreaHistogram") else { print("Failed to create the histogram filter"); return nil }
 		filter.setValue(beginImage, forKey: kCIInputImageKey)
@@ -31,6 +31,11 @@ extension UIImage {
 		guard let finalHistogram = histogramFilter.outputImage else { print("Failed to get histogram output"); return nil }
 		
 		return UIImage(ciImage: finalHistogram)
+	}
+	
+	public func ciImage() -> CIImage? {
+		
+		return CIImage(image: self) ?? self.ciImage
 	}
 }
 
