@@ -1,9 +1,8 @@
 //
 //  ColorFilter.swift
-//  Foto SDK
+//
 //
 //  Created by Ethan Lipnik on 10/4/19.
-//  Copyright © 2019 Tailosive. All rights reserved.
 //
 
 #if !os(macOS)
