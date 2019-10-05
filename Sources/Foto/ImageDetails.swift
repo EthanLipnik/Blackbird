@@ -11,7 +11,7 @@ import UIKit
 
 extension UIImage {
 	
-	func histogram() -> UIImage? {
+	public func histogram() -> UIImage? {
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
 		guard let filter = CIFilter(name: "CIAreaHistogram") else { return nil }
