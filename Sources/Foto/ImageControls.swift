@@ -10,19 +10,19 @@ import UIKit
 
 extension UIImage {
 	
-	struct Components {
+	public struct Components {
 		var max: CIVector
 		var min: CIVector
 	}
 	
-	struct ColorCoefficients {
+	public struct ColorCoefficients {
 		var alpha: CIVector
 		var blue: CIVector
 		var green: CIVector
 		var red: CIVector
 	}
 	
-	func clamped(_ components: Components) -> UIImage? {
+	public func clamped(_ components: Components) -> UIImage? {
 		
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
@@ -38,7 +38,7 @@ extension UIImage {
 		return newImage
 	}
 	
-	func adjusted(brightness: NSNumber = 0, contrast: NSNumber = 0, saturation: NSNumber = 0) -> UIImage? {
+	public func adjusted(brightness: NSNumber = 0, contrast: NSNumber = 0, saturation: NSNumber = 0) -> UIImage? {
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
 		guard let filter = CIFilter(name: "CIColorControls") else { return nil }
@@ -54,7 +54,7 @@ extension UIImage {
 		return newImage
 	}
 	
-	func adjustedPolynomial(_ coefficients: ColorCoefficients) -> UIImage? {
+	public func adjustedPolynomial(_ coefficients: ColorCoefficients) -> UIImage? {
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
 		guard let filter = CIFilter(name: "CIColorControls") else { return nil }
