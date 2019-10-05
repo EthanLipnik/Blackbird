@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct BlurRing {
+public struct BlurRing {
 	var amount: NSNumber = 0
 	var size: NSNumber = 0
 }
@@ -17,7 +17,7 @@ struct BlurRing {
 
 import UIKit
 
-extension UIImage {
+public extension UIImage {
 	
 	func fotoAppliedFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> UIImage? {
 		
@@ -44,7 +44,7 @@ extension UIImage {
 	}
 }
 
-extension UIImageView {
+public extension UIImageView {
 	
 	func fotoApplyFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) {
 		
@@ -56,9 +56,9 @@ extension UIImageView {
 
 import AppKit
 
-extension NSImage {
+public extension NSImage {
 	
-	func fotoAppliedFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> NSImage? {
+	public func fotoAppliedFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> NSImage? {
 		
 		guard let cgImage = self.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
 		
@@ -87,9 +87,9 @@ extension NSImage {
 	}
 }
 
-extension NSImageView {
+public extension NSImageView {
 	
-	func fotoApplyFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) {
+	public func fotoApplyFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) {
 		
 		self.image = self.image?.fotoAppliedFilter(blurFilter, radius: radius, ring: ring, softness: softness, center: center)
 	}

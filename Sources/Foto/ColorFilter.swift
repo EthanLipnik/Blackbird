@@ -10,7 +10,7 @@
 
 import UIKit
 
-extension UIImage {
+public extension UIImage {
 	
 	func fotoAppliedFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> UIImage? {
 		
@@ -38,7 +38,7 @@ extension UIImage {
 	}
 }
 
-extension UIImageView {
+public extension UIImageView {
 	
 	func fotoApplyFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) {
 		
@@ -50,9 +50,9 @@ extension UIImageView {
 
 import AppKit
 
-extension NSImage {
+public extension NSImage {
 	
-	func fotoAppliedFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> NSImage? {
+	public func fotoAppliedFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> NSImage? {
 		
 		guard let cgImage = self.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
 		
@@ -82,9 +82,9 @@ extension NSImage {
 	}
 }
 
-extension NSImageView {
+public extension NSImageView {
 	
-	func fotoApplyFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) {
+	public func fotoApplyFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) {
 		
 		self.image = self.image?.fotoAppliedFilter(colorFilter, intensity: intensity, ammount: ammount, radius: radius)
 	}
