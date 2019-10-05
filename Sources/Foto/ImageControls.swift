@@ -38,14 +38,20 @@ extension UIImage {
 		return newImage
 	}
 	
-	public func adjusted(brightness: NSNumber = 0, contrast: NSNumber = 0, saturation: NSNumber = 0) -> UIImage? {
+	public func adjusted(brightness: NSNumber? = nil, contrast: NSNumber? = nil, saturation: NSNumber? = nil) -> UIImage? {
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
 		guard let filter = CIFilter(name: "CIColorControls") else { return nil }
 		filter.setValue(beginImage, forKey: kCIInputImageKey)
-		filter.setValue(brightness, forKey: kCIInputBrightnessKey)
-		filter.setValue(contrast, forKey: kCIInputContrastKey)
-		filter.setValue(saturation, forKey: kCIInputSaturationKey)
+		if let brightness = brightness {
+			filter.setValue(brightness, forKey: kCIInputBrightnessKey)
+		}
+		if let contrast = contrast {
+			filter.setValue(contrast, forKey: kCIInputContrastKey)
+		}
+		if let saturation = saturation {
+			filter.setValue(saturation, forKey: kCIInputSaturationKey)
+		}
 		
 		guard let output = filter.outputImage else { return nil }
 		
@@ -54,7 +60,7 @@ extension UIImage {
 		return newImage
 	}
 	
-	public func adjustedPolynomial(_ coefficients: ColorCoefficients) -> UIImage? {
+	public func adjusted(_ coefficients: ColorCoefficients) -> UIImage? {
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
 		guard let filter = CIFilter(name: "CIColorControls") else { return nil }
