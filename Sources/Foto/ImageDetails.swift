@@ -28,7 +28,7 @@ extension UIImage {
 		histogramFilter.setValue(0, forKey: "inputHighLimit")
 		histogramFilter.setValue(0, forKey: "inputLowLimit")
 		
-		guard let finalHistogram = histogramFilter.outputImage else { print("Failed to get histogram output") return nil }
+		guard let finalHistogram = histogramFilter.outputImage else { print("Failed to get histogram output"); return nil }
 		
 		return UIImage(ciImage: finalHistogram)
 	}
