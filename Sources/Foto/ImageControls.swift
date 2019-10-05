@@ -38,7 +38,7 @@ extension UIImage {
 		return newImage
 	}
 	
-	public func adjusted(brightness: NSNumber? = nil, contrast: NSNumber? = nil, saturation: NSNumber? = nil) -> UIImage? {
+	public func adjusted(brightness: NSNumber?, contrast: NSNumber?, saturation: NSNumber?) -> UIImage? {
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
 		guard let filter = CIFilter(name: "CIColorControls") else { return nil }
