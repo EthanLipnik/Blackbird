@@ -63,7 +63,7 @@ extension UIImage {
 	public func adjusted(_ coefficients: ColorCoefficients) -> UIImage? {
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
-		guard let filter = CIFilter(name: "CIColorControls") else { return nil }
+		guard let filter = CIFilter(name: "CIColorPolynomial") else { return nil }
 		filter.setValue(beginImage, forKey: kCIInputImageKey)
 		filter.setValue(coefficients.alpha, forKey: "inputAlphaCoefficients")
 		filter.setValue(coefficients.blue, forKey: "inputBlueCoefficients")
