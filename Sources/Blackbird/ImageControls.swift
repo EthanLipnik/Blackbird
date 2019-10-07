@@ -33,7 +33,7 @@ extension UIImage {
 		
 		guard let output = filter.outputImage else { return nil }
 		
-		let newImage = UIImage(ciImage: output)
+		let newImage = UIImage(ciImage: output).scaled(toSize: self.size)
 		
 		return newImage
 	}
@@ -41,7 +41,7 @@ extension UIImage {
 	public func adjusted(brightness: NSNumber?, contrast: NSNumber?, saturation: NSNumber?) -> UIImage? {
 		guard let output = self.adjustedWithCIImage(brightness: brightness, contrast: contrast, saturation: saturation) else { return nil }
 		
-		let newImage = UIImage(ciImage: output)
+		let newImage = UIImage(ciImage: output).scaled(toSize: self.size)
 		
 		return newImage
 	}
@@ -78,9 +78,17 @@ extension UIImage {
 		
 		guard let output = filter.outputImage else { return nil }
 		
-		let newImage = UIImage(ciImage: output)
+		let newImage = UIImage(ciImage: output).scaled(toSize: self.size)
 		
 		return newImage
 	}
+	
+	public func scaled(toSize size: CGSize) -> UIImage {
+        UIGraphicsBeginImageContext(size)
+        self.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        let newImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
 }
 #endif

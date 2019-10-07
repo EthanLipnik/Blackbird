@@ -31,7 +31,7 @@ public extension UIImage {
 		
 		guard let output = filter.outputImage else { return nil }
 		
-		let newImage = UIImage(ciImage: output)
+		let newImage = UIImage(ciImage: output).scaled(toSize: self.size)
 		
 		return newImage
 	}
