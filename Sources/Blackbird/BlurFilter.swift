@@ -18,7 +18,7 @@ import UIKit
 
 public extension UIImage {
 	
-	func fotoAppliedFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> UIImage? {
+	func appliedFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> UIImage? {
 		
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
@@ -45,9 +45,9 @@ public extension UIImage {
 
 public extension UIImageView {
 	
-	func fotoApplyFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) {
+	func applyFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) {
 		
-		self.image = self.image?.fotoAppliedFilter(blurFilter, radius: radius, ring: ring, softness: softness, center: center)
+		self.image = self.image?.appliedFilter(blurFilter, radius: radius, ring: ring, softness: softness, center: center)
 	}
 }
 
@@ -57,7 +57,7 @@ import AppKit
 
 public extension NSImage {
 	
-	public func fotoAppliedFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> NSImage? {
+	public func appliedFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> NSImage? {
 		
 		guard let cgImage = self.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
 		
@@ -88,9 +88,9 @@ public extension NSImage {
 
 public extension NSImageView {
 	
-	public func fotoApplyFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) {
+	public func applyFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) {
 		
-		self.image = self.image?.fotoAppliedFilter(blurFilter, radius: radius, ring: ring, softness: softness, center: center)
+		self.image = self.image?.appliedFilter(blurFilter, radius: radius, ring: ring, softness: softness, center: center)
 	}
 }
 

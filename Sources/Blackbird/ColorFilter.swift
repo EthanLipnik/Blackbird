@@ -11,7 +11,7 @@ import UIKit
 
 public extension UIImage {
 	
-	func fotoAppliedFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> UIImage? {
+	func appliedFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> UIImage? {
 		
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
@@ -39,9 +39,9 @@ public extension UIImage {
 
 public extension UIImageView {
 	
-	func fotoApplyFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) {
+	func applyFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) {
 		
-		self.image = self.image?.fotoAppliedFilter(colorFilter, intensity: intensity, ammount: ammount, radius: radius)
+		self.image = self.image?.appliedFilter(colorFilter, intensity: intensity, ammount: ammount, radius: radius)
 	}
 }
 
@@ -51,7 +51,7 @@ import AppKit
 
 public extension NSImage {
 	
-	public func fotoAppliedFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> NSImage? {
+	public func appliedFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> NSImage? {
 		
 		guard let cgImage = self.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
 		
@@ -83,9 +83,9 @@ public extension NSImage {
 
 public extension NSImageView {
 	
-	public func fotoApplyFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) {
+	public func applyFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) {
 		
-		self.image = self.image?.fotoAppliedFilter(colorFilter, intensity: intensity, ammount: ammount, radius: radius)
+		self.image = self.image?.appliedFilter(colorFilter, intensity: intensity, ammount: ammount, radius: radius)
 	}
 }
 
