@@ -1,7 +1,7 @@
 import XCTest
 
-import FotoTests
+import BlackbirdTests
 
 var tests = [XCTestCaseEntry]()
-tests += FotoTests.allTests()
+tests += BlackbirdTests.allTests()
 XCTMain(tests)
