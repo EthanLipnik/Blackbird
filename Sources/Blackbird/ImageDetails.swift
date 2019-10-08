@@ -24,8 +24,8 @@ extension UIImage {
 		
 		guard let histogramFilter = CIFilter(name: "CIHistogramDisplayFilter") else { print("Failed to create histogram display filter"); return nil }
 		histogramFilter.setValue(histogramData, forKey: kCIInputImageKey)
-		histogramFilter.setValue(200, forKey: "inputHeight")
-		histogramFilter.setValue(200, forKey: "inputHighLimit")
+		histogramFilter.setValue(50, forKey: "inputHeight")
+		histogramFilter.setValue(50, forKey: "inputHighLimit")
 		histogramFilter.setValue(0, forKey: "inputLowLimit")
 		
 		guard let finalHistogram = histogramFilter.outputImage else { print("Failed to get histogram output"); return nil }
