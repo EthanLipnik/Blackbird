@@ -72,7 +72,7 @@ class Deeplab {
 /// URL of model assuming it was installed in the same bundle as this class
     class var urlOfModelInThisBundle : URL {
         let bundle = Bundle(for: Deeplab.self)
-        return bundle.url(forResource: "Deeplab", withExtension:"mlmodel")!
+        return bundle.url(forResource: "Deeplab", withExtension:"mlmodelc")!
     }
 
     /**
