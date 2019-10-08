@@ -11,7 +11,7 @@ import UIKit
 
 extension UIImage {
 	
-	public func histogram(_ height: NSNumber = 256) -> UIImage? {
+	public func histogram(withHeight height: NSNumber = 256) -> UIImage? {
 		guard let beginImage = self.ciImage() else { print("No image to proccess"); return nil }
 		
 		guard let filter = CIFilter(name: "CIAreaHistogram") else { print("Failed to create the histogram filter"); return nil }
