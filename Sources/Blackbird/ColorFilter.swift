@@ -13,22 +13,6 @@ public extension UIImage {
 	
 	func appliedFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> UIImage? {
 		
-		guard colorFilter != .subjectGrayscaleFocus else {
-			
-			guard #available(iOS 11.0, *) else { return nil }
-			guard let cgImg = self.segmentation() else { return nil }
-			
-			let filter = GraySegmentFilter()
-			filter.inputImage = CIImage.init(cgImage: self.cgImage!)
-			filter.maskImage = CIImage.init(cgImage: cgImg)
-			let output = filter.value(forKey:kCIOutputImageKey) as! CIImage
-			
-			let ciContext = CIContext(options: nil)
-			let cgImage = ciContext.createCGImage(output, from: output.extent)!
-			
-			return UIImage(cgImage: cgImage)
-		}
-		
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
 		guard let filter = CIFilter(name: colorFilter.rawValue) else { return nil }

@@ -20,7 +20,6 @@ public enum ColorFilter: String {
 	case thermal = "CIThermal"
 	case vigantte = "CIVignette"
 	case xray = "CIXRay"
-	case subjectGrayscaleFocus = "BBSubjectGrayscaleFocus"
 }
 
 public enum BlurFilter: String {
