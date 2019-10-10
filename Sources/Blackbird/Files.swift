@@ -18,7 +18,7 @@ class Files: NSObject {
 		guard let enumerator = FileManager.default.enumerator(
 			at: baseURL,
 			includingPropertiesForKeys: [.nameKey],
-			options: [.skipsHiddenFiles, .skipsPackageDescendants],
+			options: [],
 			errorHandler: nil) else {
 				fatalError("Could not enumerate \(baseURL)")
 		}
