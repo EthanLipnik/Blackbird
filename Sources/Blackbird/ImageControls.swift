@@ -32,7 +32,7 @@ extension UIImage {
 		
 		guard let output = filter.outputImage else { return nil }
 		
-		guard let cgimg = Blackbird.shared.createCGImage(output, from: output.extent) else { return nil }
+		guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
 		let newImage = UIImage(cgImage: cgimg).scaled(toSize: self.size)
 		
 		return newImage
@@ -41,7 +41,7 @@ extension UIImage {
 	public func adjusted(brightness: NSNumber?, contrast: NSNumber?, saturation: NSNumber?) -> UIImage? {
 		guard let output = self.adjustedWithCIImage(brightness: brightness, contrast: contrast, saturation: saturation) else { return nil }
 		
-		guard let cgimg = Blackbird.shared.createCGImage(output, from: output.extent) else { return nil }
+		guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
 		
 		let newImage = UIImage(cgImage: cgimg).scaled(toSize: self.size)
 		
@@ -80,7 +80,7 @@ extension UIImage {
 		
 		guard let output = filter.outputImage else { return nil }
 		
-		guard let cgimg = Blackbird.shared.createCGImage(output, from: output.extent) else { return nil }
+		guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
 		
 		let newImage = UIImage(cgImage: cgimg).scaled(toSize: self.size)
 		

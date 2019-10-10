@@ -29,7 +29,7 @@ extension UIImage {
 		
 		guard let finalHistogram = histogramFilter.outputImage else { print("Failed to get histogram output"); return nil }
 		
-		guard let cgimg = Blackbird.shared.createCGImage(output, from: output.extent) else { return nil }
+		guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
 		
 		return UIImage(cgImage: cgimg)
 	}
