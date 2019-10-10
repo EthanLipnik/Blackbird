@@ -37,7 +37,9 @@ public extension UIImage {
 		
 		guard let output = filter.outputImage else { return nil }
 		
-		let newImage = UIImage(ciImage: output).scaled(toSize: self.size)
+		guard let cgimg = Blackbird.shared.createCGImage(output, from: output.extent) else { return nil }
+		
+		let newImage = UIImage(cgImage: cgimg).scaled(toSize: self.size)
 		
 		return newImage
 	}
@@ -57,7 +59,7 @@ import AppKit
 
 public extension NSImage {
 	
-	public func appliedFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> NSImage? {
+	func appliedFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> NSImage? {
 		
 		guard let cgImage = self.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
 		
@@ -88,7 +90,7 @@ public extension NSImage {
 
 public extension NSImageView {
 	
-	public func applyFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) {
+	func applyFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) {
 		
 		self.image = self.image?.appliedFilter(blurFilter, radius: radius, ring: ring, softness: softness, center: center)
 	}

@@ -31,7 +31,9 @@ public extension UIImage {
 		
 		guard let output = filter.outputImage else { return nil }
 		
-		let newImage = UIImage(ciImage: output).scaled(toSize: self.size)
+		guard let cgimg = Blackbird.shared.createCGImage(output, from: output.extent) else { return nil }
+		
+		let newImage = UIImage(cgImage: cgimg).scaled(toSize: self.size)
 		
 		return newImage
 	}
@@ -51,7 +53,7 @@ import AppKit
 
 public extension NSImage {
 	
-	public func appliedFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> NSImage? {
+	func appliedFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> NSImage? {
 		
 		guard let cgImage = self.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
 		
@@ -83,7 +85,7 @@ public extension NSImage {
 
 public extension NSImageView {
 	
-	public func applyFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) {
+	func applyFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) {
 		
 		self.image = self.image?.appliedFilter(colorFilter, intensity: intensity, ammount: ammount, radius: radius)
 	}

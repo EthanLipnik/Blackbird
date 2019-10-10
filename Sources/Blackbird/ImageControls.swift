@@ -23,7 +23,6 @@ extension UIImage {
 	}
 	
 	public func clamped(_ components: Components) -> UIImage? {
-		
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
 		guard let filter = CIFilter(name: "CIColorClamp") else { return nil }
@@ -33,7 +32,8 @@ extension UIImage {
 		
 		guard let output = filter.outputImage else { return nil }
 		
-		let newImage = UIImage(ciImage: output).scaled(toSize: self.size)
+		guard let cgimg = Blackbird.shared.createCGImage(output, from: output.extent) else { return nil }
+		let newImage = UIImage(cgImage: cgimg).scaled(toSize: self.size)
 		
 		return newImage
 	}
@@ -41,7 +41,9 @@ extension UIImage {
 	public func adjusted(brightness: NSNumber?, contrast: NSNumber?, saturation: NSNumber?) -> UIImage? {
 		guard let output = self.adjustedWithCIImage(brightness: brightness, contrast: contrast, saturation: saturation) else { return nil }
 		
-		let newImage = UIImage(ciImage: output).scaled(toSize: self.size)
+		guard let cgimg = Blackbird.shared.createCGImage(output, from: output.extent) else { return nil }
+		
+		let newImage = UIImage(cgImage: cgimg).scaled(toSize: self.size)
 		
 		return newImage
 	}
@@ -78,16 +80,20 @@ extension UIImage {
 		
 		guard let output = filter.outputImage else { return nil }
 		
-		let newImage = UIImage(ciImage: output).scaled(toSize: self.size)
+		guard let cgimg = Blackbird.shared.createCGImage(output, from: output.extent) else { return nil }
+		
+		let newImage = UIImage(cgImage: cgimg).scaled(toSize: self.size)
 		
 		return newImage
 	}
 	
 	public func scaled(toSize size: CGSize) -> UIImage {
+		
         UIGraphicsBeginImageContext(size)
         self.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         let newImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
+		
         return newImage
     }
 }
