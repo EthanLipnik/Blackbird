@@ -27,7 +27,7 @@ extension UIImage {
 		histogramFilter.setValue(histogramData, forKey: kCIInputImageKey)
 		histogramFilter.setValue(height, forKey: "inputHeight")
 		
-		guard let finalHistogram = histogramFilter.outputImage else { print("Failed to get histogram output"); return nil }
+		guard let output = histogramFilter.outputImage else { print("Failed to get histogram output"); return nil }
 		
 		guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
 		
