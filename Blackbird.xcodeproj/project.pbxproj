@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA115185234FFEFB004679E1 /* Deeplab.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = AA115184234FFEFB004679E1 /* Deeplab.mlmodel */; };
+		AA115189234FFF27004679E1 /* GraySegmentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA115187234FFF27004679E1 /* GraySegmentFilter.swift */; };
+		AA11518A234FFF27004679E1 /* UIImage+Segmentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA115188234FFF27004679E1 /* UIImage+Segmentation.swift */; };
 		AABE0AB3234FE6AC0061E78A /* Blackbird.h in Headers */ = {isa = PBXBuildFile; fileRef = AABE0AB1234FE6AC0061E78A /* Blackbird.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABE0ABF234FE6D90061E78A /* ImageControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE0AB9234FE6D80061E78A /* ImageControls.swift */; };
 		AABE0AC0234FE6D90061E78A /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE0ABA234FE6D80061E78A /* Shared.swift */; };
@@ -50,6 +53,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA115184234FFEFB004679E1 /* Deeplab.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Deeplab.mlmodel; sourceTree = "<group>"; };
+		AA115187234FFF27004679E1 /* GraySegmentFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraySegmentFilter.swift; sourceTree = "<group>"; };
+		AA115188234FFF27004679E1 /* UIImage+Segmentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Segmentation.swift"; sourceTree = "<group>"; };
 		AABE0AAE234FE6AC0061E78A /* Blackbird.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Blackbird.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AABE0AB1234FE6AC0061E78A /* Blackbird.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Blackbird.h; sourceTree = "<group>"; };
 		AABE0AB2234FE6AC0061E78A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -90,6 +96,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA115186234FFEFF004679E1 /* Predictive Image Segmentation */ = {
+			isa = PBXGroup;
+			children = (
+				AA115187234FFF27004679E1 /* GraySegmentFilter.swift */,
+				AA115188234FFF27004679E1 /* UIImage+Segmentation.swift */,
+				AA115184234FFEFB004679E1 /* Deeplab.mlmodel */,
+			);
+			path = "Predictive Image Segmentation";
+			sourceTree = "<group>";
+		};
 		AABE0AA4234FE6AC0061E78A = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				AABE0AB1234FE6AC0061E78A /* Blackbird.h */,
+				AA115186234FFEFF004679E1 /* Predictive Image Segmentation */,
 				AABE0ABD234FE6D90061E78A /* BlurFilter.swift */,
 				AABE0ABC234FE6D80061E78A /* ColorFilter.swift */,
 				AABE0ABB234FE6D80061E78A /* Filters.swift */,
@@ -262,12 +279,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA11518A234FFF27004679E1 /* UIImage+Segmentation.swift in Sources */,
 				AABE0AC1234FE6D90061E78A /* Filters.swift in Sources */,
 				AABE0AC2234FE6D90061E78A /* ColorFilter.swift in Sources */,
 				AABE0AC0234FE6D90061E78A /* Shared.swift in Sources */,
 				AABE0AC3234FE6D90061E78A /* BlurFilter.swift in Sources */,
 				AABE0AC4234FE6D90061E78A /* ImageDetails.swift in Sources */,
 				AABE0ABF234FE6D90061E78A /* ImageControls.swift in Sources */,
+				AA115189234FFF27004679E1 /* GraySegmentFilter.swift in Sources */,
+				AA115185234FFEFB004679E1 /* Deeplab.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AABE0AE1234FE9150061E78A"
-               BuildableName = "Example iOS.app"
+               BuildableName = "Blackbird Example.app"
                BlueprintName = "Example iOS"
                ReferencedContainer = "container:Blackbird.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AABE0AE1234FE9150061E78A"
-            BuildableName = "Example iOS.app"
+            BuildableName = "Blackbird Example.app"
             BlueprintName = "Example iOS"
             ReferencedContainer = "container:Blackbird.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AABE0AE1234FE9150061E78A"
-            BuildableName = "Example iOS.app"
+            BuildableName = "Blackbird Example.app"
             BlueprintName = "Example iOS"
             ReferencedContainer = "container:Blackbird.xcodeproj">
          </BuildableReference>

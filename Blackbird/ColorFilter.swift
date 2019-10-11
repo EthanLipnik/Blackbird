@@ -13,6 +13,21 @@ public extension UIImage {
 	
 	func appliedFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> UIImage? {
 		
+		guard colorFilter != .psGrayscale else {
+			
+			if let cgImg = self.segmentation() {
+				let filter = GraySegmentFilter()
+				filter.inputImage = CIImage.init(cgImage: self.cgImage!)
+				filter.maskImage = CIImage.init(cgImage: cgImg)
+				let output = filter.value(forKey: kCIOutputImageKey) as! CIImage
+				
+				let cgImage = Blackbird.shared.context.createCGImage(output, from: output.extent)!
+				return UIImage(cgImage: cgImage)
+			}
+			
+			return nil
+		}
+		
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
 		guard let filter = CIFilter(name: colorFilter.rawValue) else { return nil }
@@ -54,6 +69,24 @@ import AppKit
 public extension NSImage {
 	
 	func appliedFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> NSImage? {
+		
+		guard colorFilter != .psGrayscale else {
+			
+			if let cgImg = self.segmentation() {
+				let filter = GraySegmentFilter()
+				filter.inputImage = CIImage.init(cgImage: self.cgImage!)
+				filter.maskImage = CIImage.init(cgImage: cgImg)
+				let output = filter.value(forKey: kCIOutputImageKey) as! CIImage
+				
+				let rep = NSCIImageRep(ciImage: output)
+				let nsImage = NSImage(size: rep.size)
+				nsImage.addRepresentation(rep)
+				
+				return nsImage
+			}
+			
+			return nil
+		}
 		
 		guard let cgImage = self.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
 		
