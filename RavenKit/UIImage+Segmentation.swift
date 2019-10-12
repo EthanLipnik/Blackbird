@@ -2,27 +2,35 @@
 
 import UIKit
 import VideoToolbox
+import Blackbird
 
 public extension UIImage {
     
     func segmentation() -> CGImage? {
-        guard var cgImage = self.coarseSegmentation() else {
-            return nil
-        }
-        let outputWidth:CGFloat = 500.0
-        let outputSize = CGSize(width: outputWidth, height: outputWidth * (self.size.height / self.size.width))
-        let resizeImg = UIImage(cgImage: cgImage).resize(size: outputSize)!
-        let ciImg = CIImage(cgImage: resizeImg.cgImage!)
-        let smoothFilter = SmoothFilter.init()
-        smoothFilter.inputImage = ciImg
- 
-        let outputImage = smoothFilter.outputImage!
-        let ciContext = CIContext(options: nil)
-        cgImage = ciContext.createCGImage(outputImage, from: ciImg.extent)!
+        
+		guard let ci = segmentationCI() else { return nil }
+		
+		let cgImage = Blackbird.shared.context.createCGImage(ci, from: ci.extent)!
         return cgImage
-    }
-    
-    func coarseSegmentation() -> CGImage? {
+	}
+	
+	func segmentationCI() -> CIImage? {
+		guard let cgImage = self.coarseSegmentation() else {
+			return nil
+		}
+		let outputWidth:CGFloat = 500.0
+		let outputSize = CGSize(width: outputWidth, height: outputWidth * (self.size.height / self.size.width))
+		let resizeImg = UIImage(cgImage: cgImage).resize(size: outputSize)!
+		let ciImg = CIImage(cgImage: resizeImg.cgImage!)
+		let smoothFilter = SmoothFilter.init()
+		smoothFilter.inputImage = ciImg
+		
+		let outputImage = smoothFilter.outputImage!
+		
+		return outputImage
+	}
+	
+	func coarseSegmentation() -> CGImage? {
         let deeplab = Deeplab.init()
         //input size 513*513
         let pixBuf = self.pixelBuffer(width: 513, height: 513)

@@ -5,7 +5,6 @@
 //  Created by Ethan Lipnik on 10/4/19.
 //
 
-#if !os(macOS)
 import UIKit
 
 extension UIImage {
@@ -33,22 +32,22 @@ extension UIImage {
 		guard let output = filter.outputImage else { return nil }
 		
 		guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
-		let newImage = UIImage(cgImage: cgimg).scaled(toSize: self.size)
+		let newImage = UIImage(cgImage: cgimg).scaling(toSize: self.size)
 		
 		return newImage
 	}
 	
-	public func adjusted(brightness: NSNumber?, contrast: NSNumber?, saturation: NSNumber?) -> UIImage? {
-		guard let output = self.adjustedWithCIImage(brightness: brightness, contrast: contrast, saturation: saturation) else { return nil }
+	public func adjusting(brightness: NSNumber?, contrast: NSNumber?, saturation: NSNumber?) -> UIImage? {
+		guard let output = self.adjustingWithCIImage(brightness: brightness, contrast: contrast, saturation: saturation) else { return nil }
 		
 		guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
 		
-		let newImage = UIImage(cgImage: cgimg).scaled(toSize: self.size)
+		let newImage = UIImage(cgImage: cgimg).scaling(toSize: self.size)
 		
 		return newImage
 	}
 	
-	public func adjustedWithCIImage(brightness: NSNumber?, contrast: NSNumber?, saturation: NSNumber?) -> CIImage? {
+	public func adjustingWithCIImage(brightness: NSNumber?, contrast: NSNumber?, saturation: NSNumber?) -> CIImage? {
 		guard let beginImage = self.ciImage() else { return nil }
 		
 		guard let filter = CIFilter(name: "CIColorControls") else { return nil }
@@ -68,7 +67,7 @@ extension UIImage {
 		return output
 	}
 	
-	public func adjusted(_ coefficients: ColorCoefficients) -> UIImage? {
+	public func adjusting(_ coefficients: ColorCoefficients) -> UIImage? {
 		guard let beginImage = CIImage(image: self) else { return nil }
 		
 		guard let filter = CIFilter(name: "CIColorPolynomial") else { return nil }
@@ -82,12 +81,12 @@ extension UIImage {
 		
 		guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
 		
-		let newImage = UIImage(cgImage: cgimg).scaled(toSize: self.size)
+		let newImage = UIImage(cgImage: cgimg).scaling(toSize: self.size)
 		
 		return newImage
 	}
 	
-	public func scaled(toSize size: CGSize) -> UIImage {
+	public func scaling(toSize size: CGSize) -> UIImage {
 		
         UIGraphicsBeginImageContext(size)
         self.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
@@ -97,4 +96,3 @@ extension UIImage {
         return newImage
     }
 }
-#endif

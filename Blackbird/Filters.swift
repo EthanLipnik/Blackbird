@@ -1,6 +1,6 @@
 //
 //  Filters.swift
-//
+//  Blackbird
 //
 //  Created by Ethan Lipnik on 10/4/19.
 //
@@ -20,7 +20,6 @@ public enum ColorFilter: String {
 	case thermal = "CIThermal"
 	case vigantte = "CIVignette"
 	case xray = "CIXRay"
-	case psGrayscale = "BBPredictedSegmentationGrayscale"
 }
 
 public enum BlurFilter: String {

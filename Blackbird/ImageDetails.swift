@@ -5,8 +5,6 @@
 //  Created by Ethan Lipnik on 10/5/19.
 //
 
-#if !os(macOS)
-
 import UIKit
 
 extension UIImage {
@@ -39,5 +37,3 @@ extension UIImage {
 		return CIImage(image: self) ?? self.ciImage
 	}
 }
-
-#endif
