@@ -31,7 +31,7 @@ public extension UIImage {
 		
 		guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
 		
-		let newImage = UIImage(cgImage: cgimg).scaling(toSize: self.size)
+		let newImage = UIImage(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
 		
 		return newImage
 	}
