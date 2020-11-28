@@ -53,3 +53,43 @@ public enum DepthAdjustment: String {
     case depthToDisparity = "CIDepthToDisparity"
     case disparityToDepth = "CIDisparityToDepth"
 }
+
+public struct Filter {
+    public var name: String
+    public var filter: String
+    
+    public init(filter: String) {
+        self.filter = filter
+        
+        switch filter {
+        case "CIPhotoEffectNoir":
+            self.name = "Noir"
+        case "CIPhotoEffectChrome":
+            self.name = "Chrome"
+        case "CIPhotoEffectFade":
+            self.name = "Fade"
+        case "CIPhotoEffectInstant":
+            self.name = "Instant"
+        case "CIPhotoEffectMono":
+            self.name = "Mono"
+        case "CIPhotoEffectProcess":
+            self.name = "Process"
+        case "CIPhotoEffectTonal":
+            self.name = "Tonal"
+        case "CIPhotoEffectTransfer":
+            self.name = "Transfer"
+        case "CISepiaTone":
+            self.name = "Sepia"
+        case "CIThermal":
+            self.name = "Thermal"
+        case "CIVignette":
+            self.name = "Vigantte"
+        case "CIXRay":
+            self.name = "Xray"
+        case "CIColorInvert":
+            self.name = "Invert"
+        default:
+            self.name = ""
+        }
+    }
+}
