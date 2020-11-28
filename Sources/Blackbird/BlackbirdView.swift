@@ -131,14 +131,14 @@ open class UIBlackbirdView: MTKView {
     }
 }
 
-struct BlackbirdView: UIViewRepresentable {
+public struct BlackbirdView: UIViewRepresentable {
     @Binding var image: CIImage
     
-    func makeUIView(context: Context) -> UIBlackbirdView {
+    public func makeUIView(context: Context) -> UIBlackbirdView {
         return UIBlackbirdView()
     }
     
-    func updateUIView(_ uiView: UIBlackbirdView, context: Context) {
+    public func updateUIView(_ uiView: UIBlackbirdView, context: Context) {
         uiView.image = image
     }
 }
