@@ -139,7 +139,9 @@ public struct BlackbirdView: UIViewRepresentable {
     }
     
     public func makeUIView(context: Context) -> UIBlackbirdView {
-        return UIBlackbirdView()
+        let view = UIBlackbirdView()
+        view.image = image
+        return view
     }
     
     public func updateUIView(_ uiView: UIBlackbirdView, context: Context) {
