@@ -9,7 +9,7 @@ import Foundation
 import CoreImage
 
 open class Blackbird: NSObject {
-	public static let shared = Blackbird()
-	
-	public let context = CIContext(options: nil)
+    public static let shared = Blackbird()
+    
+    public let context = CIContext(options: nil)
 }
