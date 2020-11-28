@@ -134,6 +134,10 @@ open class UIBlackbirdView: MTKView {
 public struct BlackbirdView: UIViewRepresentable {
     @Binding public var image: CIImage
     
+    public init(image: Binding<CIImage>) {
+        self._image = image
+    }
+    
     public func makeUIView(context: Context) -> UIBlackbirdView {
         return UIBlackbirdView()
     }
