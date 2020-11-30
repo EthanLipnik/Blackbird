@@ -7,12 +7,12 @@
 
 #if os(macOS)
 import AppKit
-public typealias Image = NSImage
-public typealias ImageView = NSImageView
+public typealias BBImage = NSImage
+public typealias BBImageView = NSImageView
 #else
 import UIKit
-public typealias Image = UIImage
-public typealias ImageView = UIImageView
+public typealias BBImage = UIImage
+public typealias BBImageView = UIImageView
 #endif
 
 public struct BlurRing {
@@ -25,9 +25,9 @@ public enum MaskParams {
     static let width: CGFloat = 0.1
 }
 
-public extension Image {
+public extension BBImage {
     
-    func applyingFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, mask: Image? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> Image? {
+    func applyingFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, mask: BBImage? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> BBImage? {
         
         #if os(macOS)
         guard let beginImage = self.ciImage() else { return nil }
@@ -42,9 +42,9 @@ public extension Image {
         guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
         
         #if os(macOS)
-        let newImage = Image(cgImage: cgimg, size: self.size)
+        let newImage = BBImage(cgImage: cgimg, size: self.size)
         #else
-        let newImage = Image(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
+        let newImage = BBImage(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
         #endif
         
         return newImage
@@ -81,7 +81,7 @@ public extension CIImage {
     }
 }
 
-public extension ImageView {
+public extension BBImageView {
     
     func applyFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) {
         

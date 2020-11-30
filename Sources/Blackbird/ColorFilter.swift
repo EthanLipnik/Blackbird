@@ -11,9 +11,9 @@ import AppKit
 import UIKit
 #endif
 
-public extension Image {
+public extension BBImage {
     
-    func applyingFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> Image? {
+    func applyingFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> BBImage? {
         
         guard let beginImage = self.ciImage() else { return nil }
         
@@ -22,9 +22,9 @@ public extension Image {
         guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
         
         #if os(macOS)
-        let newImage = Image(cgImage: cgimg, size: self.size)
+        let newImage = BBImage(cgImage: cgimg, size: self.size)
         #else
-        let newImage = Image(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
+        let newImage = BBImage(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
         #endif
         
         return newImage
@@ -52,7 +52,7 @@ public extension CIImage {
     }
 }
 
-public extension ImageView {
+public extension BBImageView {
     
     func applyFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) {
         

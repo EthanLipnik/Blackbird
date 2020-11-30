@@ -116,25 +116,6 @@ open class UIBlackbirdView: MTKView {
         
         self.releaseDrawables()
     }
-    
-    #if !os(macOS)
-    public func getUIImage() -> Image? {
-        guard let image = self.image, let cgimg = Blackbird.shared.context.createCGImage(image, from: image.extent) else { return nil }
-        
-        let newImage = Image(cgImage: cgimg)
-        
-        return newImage
-    }
-    
-    public func getImage() -> Image? {
-        guard let image = self.image, let cgimg = Blackbird.shared.context.createCGImage(image, from: image.extent) else { return nil }
-        
-        let uiImage = Image(cgImage: cgimg)
-        let newImage = Image(uiImage: uiImage)
-        
-        return newImage
-    }
-    #endif
 }
 
 #if os(macOS)

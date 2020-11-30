@@ -23,9 +23,9 @@ public struct ColorCoefficients {
     var red: CIVector
 }
 
-public extension Image {
+public extension BBImage {
     
-    func clamping(_ components: Components) -> Image? {
+    func clamping(_ components: Components) -> BBImage? {
         guard let beginImage = self.ciImage() else { return nil }
         
         guard let filter = CIFilter(name: "CIColorClamp") else { return nil }
@@ -37,15 +37,15 @@ public extension Image {
         
         guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
         #if os(macOS)
-        let newImage = Image(cgImage: cgimg, size: self.size)
+        let newImage = BBImage(cgImage: cgimg, size: self.size)
         #else
-        let newImage = Image(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
+        let newImage = BBImage(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
         #endif
         
         return newImage
     }
     
-    func adjusting(brightness: NSNumber?, contrast: NSNumber?, saturation: NSNumber?) -> Image? {
+    func adjusting(brightness: NSNumber?, contrast: NSNumber?, saturation: NSNumber?) -> BBImage? {
         
         guard let beginImage = self.ciImage() else { return nil }
         
@@ -54,15 +54,15 @@ public extension Image {
         guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
         
         #if os(macOS)
-        let newImage = Image(cgImage: cgimg, size: self.size)
+        let newImage = BBImage(cgImage: cgimg, size: self.size)
         #else
-        let newImage = Image(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
+        let newImage = BBImage(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
         #endif
         
         return newImage
     }
     
-    func adjusting(_ coefficients: ColorCoefficients) -> Image? {
+    func adjusting(_ coefficients: ColorCoefficients) -> BBImage? {
         guard let beginImage = self.ciImage() else { return nil }
         
         guard let output = beginImage.adjusting(coefficients) else { return nil }
@@ -70,20 +70,20 @@ public extension Image {
         guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
         
         #if os(macOS)
-        let newImage = Image(cgImage: cgimg, size: self.size)
+        let newImage = BBImage(cgImage: cgimg, size: self.size)
         #else
-        let newImage = Image(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
+        let newImage = BBImage(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
         #endif
         
         return newImage
     }
     
     #if !os(macOS)
-    func scaling(toSize size: CGSize) -> Image {
+    func scaling(toSize size: CGSize) -> BBImage {
         
         UIGraphicsBeginImageContext(size)
         self.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        let newImage : Image = UIGraphicsGetImageFromCurrentImageContext()!
+        let newImage : BBImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         return newImage

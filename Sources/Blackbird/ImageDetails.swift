@@ -11,9 +11,9 @@ import AppKit.NSImage
 import UIKit.UIImage
 #endif
 
-extension Image {
+extension BBImage {
     
-    public func histogram(withHeight height: NSNumber = 256) -> Image? {
+    public func histogram(withHeight height: NSNumber = 256) -> BBImage? {
         
         guard let beginImage = self.ciImage() else { print("No image to proccess"); return nil }
         
@@ -33,7 +33,11 @@ extension Image {
         
         guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
         
-        return Image(cgImage: cgimg, size: self.size)
+        #if os(macOS)
+        return BBImage(cgImage: cgimg, size: self.size)
+        #else
+        return BBImage(cgImage: cgimg)
+        #endif
     }
     
     public func ciImage() -> CIImage? {
