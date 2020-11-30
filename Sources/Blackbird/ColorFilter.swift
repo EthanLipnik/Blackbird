@@ -5,19 +5,27 @@
 //  Created by Ethan Lipnik on 10/4/19.
 //
 
+#if os(macOS)
+import AppKit
+#else
 import UIKit
+#endif
 
-public extension UIImage {
+public extension Image {
     
-    func applyingFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> UIImage? {
+    func applyingFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> Image? {
         
-        guard let beginImage = CIImage(image: self) else { return nil }
+        guard let beginImage = self.ciImage() else { return nil }
         
         guard let output = beginImage.applyingFilter(colorFilter, intensity: intensity, ammount: ammount, radius: radius) else { return nil }
         
         guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
         
-        let newImage = UIImage(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
+        #if os(macOS)
+        let newImage = Image(cgImage: cgimg, size: self.size)
+        #else
+        let newImage = Image(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
+        #endif
         
         return newImage
     }
@@ -44,7 +52,7 @@ public extension CIImage {
     }
 }
 
-public extension UIImageView {
+public extension ImageView {
     
     func applyFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) {
         

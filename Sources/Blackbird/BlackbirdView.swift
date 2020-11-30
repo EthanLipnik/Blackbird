@@ -1,7 +1,11 @@
-import UIKit
 import SwiftUI
 import MetalKit
 import AVFoundation
+#if os(macOS)
+import AppKit
+#else
+import UIKit
+#endif
 
 open class UIBlackbirdView: MTKView {
     
@@ -113,10 +117,11 @@ open class UIBlackbirdView: MTKView {
         self.releaseDrawables()
     }
     
-    public func getUIImage() -> UIImage? {
+    #if !os(macOS)
+    public func getUIImage() -> Image? {
         guard let image = self.image, let cgimg = Blackbird.shared.context.createCGImage(image, from: image.extent) else { return nil }
         
-        let newImage = UIImage(cgImage: cgimg)
+        let newImage = Image(cgImage: cgimg)
         
         return newImage
     }
@@ -124,13 +129,33 @@ open class UIBlackbirdView: MTKView {
     public func getImage() -> Image? {
         guard let image = self.image, let cgimg = Blackbird.shared.context.createCGImage(image, from: image.extent) else { return nil }
         
-        let uiImage = UIImage(cgImage: cgimg)
+        let uiImage = Image(cgImage: cgimg)
         let newImage = Image(uiImage: uiImage)
         
         return newImage
     }
+    #endif
 }
 
+#if os(macOS)
+public struct BlackbirdView: NSViewRepresentable {
+    @Binding public var image: CIImage
+    
+    public init(image: Binding<CIImage>) {
+        self._image = image
+    }
+    
+    public func makeNSView(context: Context) -> UIBlackbirdView {
+        let view = UIBlackbirdView()
+        view.image = image
+        return view
+    }
+    
+    public func updateNSView(_ nsView: UIBlackbirdView, context: Context) {
+        nsView.image = image
+    }
+}
+#else
 public struct BlackbirdView: UIViewRepresentable {
     @Binding public var image: CIImage
     
@@ -148,3 +173,4 @@ public struct BlackbirdView: UIViewRepresentable {
         uiView.image = image
     }
 }
+#endif

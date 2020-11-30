@@ -5,7 +5,15 @@
 //  Created by Ethan Lipnik on 10/4/19.
 //
 
+#if os(macOS)
+import AppKit
+public typealias Image = NSImage
+public typealias ImageView = NSImageView
+#else
 import UIKit
+public typealias Image = UIImage
+public typealias ImageView = UIImageView
+#endif
 
 public struct BlurRing {
     var amount: NSNumber = 0
@@ -17,17 +25,27 @@ public enum MaskParams {
     static let width: CGFloat = 0.1
 }
 
-public extension UIImage {
+public extension Image {
     
-    func applyingFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, mask: UIImage? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> UIImage? {
+    func applyingFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, mask: Image? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> Image? {
         
+        #if os(macOS)
+        guard let beginImage = self.ciImage() else { return nil }
+        let ciMask = mask?.ciImage()
+        #else
         guard let beginImage = CIImage(image: self) else { return nil }
+        let ciMask: CIImage? = mask == nil ? nil : CIImage(image: mask!)
+        #endif
         
-        guard let output = beginImage.applyingFilter(blurFilter, radius: radius, mask: (mask != nil) ? CIImage(image: mask!) : nil, ring: ring, softness: softness, center: center) else { return nil }
+        guard let output = beginImage.applyingFilter(blurFilter, radius: radius, mask: (mask != nil) ? ciMask : nil, ring: ring, softness: softness, center: center) else { return nil }
         
         guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
         
-        let newImage = UIImage(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
+        #if os(macOS)
+        let newImage = Image(cgImage: cgimg, size: self.size)
+        #else
+        let newImage = Image(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
+        #endif
         
         return newImage
     }
@@ -63,7 +81,7 @@ public extension CIImage {
     }
 }
 
-public extension UIImageView {
+public extension ImageView {
     
     func applyFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) {
         

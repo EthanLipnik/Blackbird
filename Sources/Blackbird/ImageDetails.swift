@@ -5,11 +5,15 @@
 //  Created by Ethan Lipnik on 10/5/19.
 //
 
-import UIKit
+#if os(macOS)
+import AppKit.NSImage
+#else
+import UIKit.UIImage
+#endif
 
-extension UIImage {
+extension Image {
     
-    public func histogram(withHeight height: NSNumber = 256) -> UIImage? {
+    public func histogram(withHeight height: NSNumber = 256) -> Image? {
         
         guard let beginImage = self.ciImage() else { print("No image to proccess"); return nil }
         
@@ -29,11 +33,15 @@ extension UIImage {
         
         guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
         
-        return UIImage(cgImage: cgimg)
+        return Image(cgImage: cgimg, size: self.size)
     }
     
     public func ciImage() -> CIImage? {
-        
+        #if os(macOS)
+        guard let data = self.tiffRepresentation else { return nil }
+        return CIImage(data: data)
+        #else
         return CIImage(image: self) ?? self.ciImage
+        #endif
     }
 }
