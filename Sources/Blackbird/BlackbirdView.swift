@@ -7,7 +7,7 @@ import AppKit
 import UIKit
 #endif
 
-open class UIBlackbirdView: MTKView {
+open class UIBlackbirdView: MTKView, MTKViewDelegate {
     
     public let colorSpace = CGColorSpaceCreateDeviceRGB()
     
@@ -33,6 +33,17 @@ open class UIBlackbirdView: MTKView {
         return context
     }()
     
+    public lazy var image: CIImage? = nil {
+        didSet {
+            draw(in: self)
+        }
+    }
+    
+    public init() {
+        super.init(frame: .zero, device: MTLCreateSystemDefaultDevice())
+        setup()
+    }
+    
     public override init(frame frameRect: CGRect, device: MTLDevice? = MTLCreateSystemDefaultDevice()) {
         super.init(frame: frameRect,
                    device: device ?? MTLCreateSystemDefaultDevice())
@@ -42,79 +53,67 @@ open class UIBlackbirdView: MTKView {
             fatalError("Device doesn't support Metal")
         }
         
-        self.framebufferOnly = false
+        setup()
     }
     
     required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+        self.device = MTLCreateSystemDefaultDevice()
+        setup()
+    }
+    
+    private func setup() {
+        self.isPaused = true
+        self.enableSetNeedsDisplay = true
         self.framebufferOnly = false
         
-        self.device = MTLCreateSystemDefaultDevice()
+        delegate = self
     }
     
-    /// The image to display
-    public var image: CIImage?
-    {
-        didSet
-        {
-            
-            self.drawableSize = image?.extent.size ?? self.drawableSize
-            
-            renderImage()
-        }
+    public func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+        //tells us the drawable's size has changed
     }
     
-    public var orientation: CGImagePropertyOrientation? {
-        didSet {
-            
-            renderImage()
-        }
-    }
-    
-    func renderImage()
-    {
-        
-        guard var
-                image = self.image,
-              let targetTexture = self.currentDrawable?.texture else
-        {
-            print("No texture/image")
+    public func draw(in view: MTKView) {
+        //create command buffer for ciContext to use to encode it's rendering instructions to our GPU
+        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
             return
         }
         
-        if let orientation = orientation {
-            image = image.oriented(orientation)
+        //make sure we actually have a ciImage to work with
+        guard let ciImage = self.image else {
+            return
         }
         
-        let commandBuffer = self.commandQueue.makeCommandBuffer()
+        //make sure the current drawable object for this metal view is available (it's not in use by the previous draw cycle)
+        guard let currentDrawable = view.currentDrawable else {
+            return
+        }
         
         let bounds = CGRect(origin: CGPoint.zero, size: self.drawableSize)
         
-        let originX = image.extent.origin.x
-        let originY = image.extent.origin.y
+        let originX = ciImage.extent.origin.x
+        let originY = ciImage.extent.origin.y
         
-        let scaleX = self.drawableSize.width / image.extent.width
-        let scaleY = self.drawableSize.height / image.extent.height
+        let scaleX = view.drawableSize.width / ciImage.extent.width
+        let scaleY = view.drawableSize.height / ciImage.extent.height
         let scale = min(scaleX, scaleY)
         
-        let scaledImage = image
+        let scaledImage = ciImage
             .transformed(by: CGAffineTransform(translationX: -originX, y: -originY))
             .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
         
+        //render into the metal texture
         self.ciContext.render(scaledImage,
-                              to: targetTexture,
+                              to: currentDrawable.texture,
                               commandBuffer: commandBuffer,
                               bounds: bounds,
-                              colorSpace: self.colorSpace)
+                              colorSpace: colorSpace)
         
-        commandBuffer?.present(self.currentDrawable!)
-        
-        commandBuffer?.commit()
-        
-        self.draw()
-        
-        self.releaseDrawables()
+        //register where to draw the instructions in the command buffer once it executes
+        commandBuffer.present(currentDrawable)
+        //commit the command to the queue so it executes
+        commandBuffer.commit()
     }
 }
 
