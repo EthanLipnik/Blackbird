@@ -26,65 +26,98 @@ public enum MaskParams {
 }
 
 public extension BBImage {
-    
-    func applyingFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, mask: BBImage? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> BBImage? {
-        
-        #if os(macOS)
-        guard let beginImage = self.ciImage() else { return nil }
+    func applyingFilter(
+        _ blurFilter: BlurFilter,
+        radius: NSNumber? = nil,
+        mask: BBImage? = nil,
+        ring: BlurRing? = nil,
+        softness: NSNumber? = nil,
+        center: CIVector? = nil
+    ) -> BBImage? {
+#if os(macOS)
+        guard let beginImage = ciImage() else { return nil }
         let ciMask = mask?.ciImage()
-        #else
+#else
         guard let beginImage = CIImage(image: self) else { return nil }
         let ciMask: CIImage? = mask == nil ? nil : CIImage(image: mask!)
-        #endif
-        
-        guard let output = beginImage.applyingFilter(blurFilter, radius: radius, mask: (mask != nil) ? ciMask : nil, ring: ring, softness: softness, center: center) else { return nil }
-        
-        guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
-        
-        #if os(macOS)
-        let newImage = BBImage(cgImage: cgimg, size: self.size)
-        #else
-        let newImage = BBImage(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
-        #endif
-        
+#endif
+
+        guard let output = beginImage.applyingFilter(
+            blurFilter,
+            radius: radius,
+            mask: (mask != nil) ? ciMask : nil,
+            ring: ring,
+            softness: softness,
+            center: center
+        ) else { return nil }
+
+        guard let cgimg = CIContext().createCGImage(output, from: output.extent)
+        else { return nil }
+
+#if os(macOS)
+        let newImage = BBImage(cgImage: cgimg, size: size)
+#else
+        let newImage = BBImage(cgImage: cgimg, scale: scale, orientation: imageOrientation)
+            .scaling(toSize: size)
+#endif
+
         return newImage
     }
 }
 
 public extension CIImage {
-    
-    func applyingFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, mask: CIImage? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) -> CIImage? {
-        
-        let crop = CIVector(x: 0,
-                            y: 0,
-                            z: self.extent.size.width,
-                            w: self.extent.size.height)
-        
+    func applyingFilter(
+        _ blurFilter: BlurFilter,
+        radius: NSNumber? = nil,
+        mask: CIImage? = nil,
+        ring: BlurRing? = nil,
+        softness: NSNumber? = nil,
+        center _: CIVector? = nil
+    ) -> CIImage? {
+        let crop = CIVector(
+            x: 0,
+            y: 0,
+            z: extent.size.width,
+            w: extent.size.height
+        )
+
         guard let filter = CIFilter(name: blurFilter.rawValue) else { return nil }
         filter.setValue(self, forKey: "inputImage")
-        if let radius = radius {
+        if let radius {
             filter.setValue(radius, forKey: "inputRadius")
         }
-        if let mask = mask {
+        if let mask {
             filter.setValue(mask, forKey: "inputMask")
         }
-        if let ring = ring {
+        if let ring {
             filter.setValue(ring.amount, forKey: "inputRingAmount")
             filter.setValue(ring.size, forKey: "inputRingSize")
         }
-        if let softness = softness {
+        if let softness {
             filter.setValue(softness, forKey: "inputSoftness")
         }
-        
-        return filter.outputImage?.applyingFilter("CICrop",
-                                                  parameters: ["inputRectangle": crop])
+
+        return filter.outputImage?.applyingFilter(
+            "CICrop",
+            parameters: ["inputRectangle": crop]
+        )
     }
 }
 
 public extension BBImageView {
-    
-    func applyFilter(_ blurFilter: BlurFilter, radius: NSNumber? = nil, ring: BlurRing? = nil, softness: NSNumber? = nil, center: CIVector? = nil) {
-        
-        self.image = self.image?.applyingFilter(blurFilter, radius: radius, ring: ring, softness: softness, center: center)
+    func applyFilter(
+        _ blurFilter: BlurFilter,
+        radius: NSNumber? = nil,
+        ring: BlurRing? = nil,
+        softness: NSNumber? = nil,
+        center: CIVector? = nil
+    ) {
+        image = image?.applyingFilter(
+            blurFilter,
+            radius: radius,
+            ring: ring,
+            softness: softness,
+            center: center
+        )
     }
 }

@@ -12,50 +12,72 @@ import UIKit
 #endif
 
 public extension BBImage {
-    
-    func applyingFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> BBImage? {
-        
-        guard let beginImage = self.ciImage() else { return nil }
-        
-        guard let output = beginImage.applyingFilter(colorFilter, intensity: intensity, ammount: ammount, radius: radius) else { return nil }
-        
-        guard let cgimg = Blackbird.shared.context.createCGImage(output, from: output.extent) else { return nil }
-        
-        #if os(macOS)
-        let newImage = BBImage(cgImage: cgimg, size: self.size)
-        #else
-        let newImage = BBImage(cgImage: cgimg, scale: self.scale, orientation: self.imageOrientation).scaling(toSize: self.size)
-        #endif
-        
+    func applyingFilter(
+        _ colorFilter: ColorFilter,
+        intensity: NSNumber? = nil,
+        ammount: NSNumber? = nil,
+        radius: NSNumber? = nil
+    ) -> BBImage? {
+        guard let beginImage = ciImage() else { return nil }
+
+        guard let output = beginImage.applyingFilter(
+            colorFilter,
+            intensity: intensity,
+            ammount: ammount,
+            radius: radius
+        ) else { return nil }
+
+        guard let cgimg = CIContext().createCGImage(output, from: output.extent)
+        else { return nil }
+
+#if os(macOS)
+        let newImage = BBImage(cgImage: cgimg, size: size)
+#else
+        let newImage = BBImage(cgImage: cgimg, scale: scale, orientation: imageOrientation)
+            .scaling(toSize: size)
+#endif
+
         return newImage
     }
 }
 
 public extension CIImage {
-    func applyingFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) -> CIImage? {
-        
+    func applyingFilter(
+        _ colorFilter: ColorFilter,
+        intensity: NSNumber? = nil,
+        ammount: NSNumber? = nil,
+        radius: NSNumber? = nil
+    ) -> CIImage? {
         guard let filter = CIFilter(name: colorFilter.rawValue) else { return nil }
         filter.setValue(self, forKey: "inputImage")
-        if let intensity = intensity {
+        if let intensity {
             filter.setValue(intensity, forKey: "inputIntensity")
         }
-        if let ammount = ammount {
+        if let ammount {
             if #available(iOS 12.0, *) {
                 filter.setValue(ammount, forKey: "inputAmount")
             }
         }
-        if let radius = radius {
+        if let radius {
             filter.setValue(radius, forKey: "inputRadius")
         }
-        
+
         return filter.outputImage
     }
 }
 
 public extension BBImageView {
-    
-    func applyFilter(_ colorFilter: ColorFilter, intensity: NSNumber? = nil, ammount: NSNumber? = nil, radius: NSNumber? = nil) {
-        
-        self.image = self.image?.applyingFilter(colorFilter, intensity: intensity, ammount: ammount, radius: radius)
+    func applyFilter(
+        _ colorFilter: ColorFilter,
+        intensity: NSNumber? = nil,
+        ammount: NSNumber? = nil,
+        radius: NSNumber? = nil
+    ) {
+        image = image?.applyingFilter(
+            colorFilter,
+            intensity: intensity,
+            ammount: ammount,
+            radius: radius
+        )
     }
 }

@@ -57,39 +57,39 @@ public enum DepthAdjustment: String {
 public struct Filter {
     public var name: String
     public var filter: String
-    
+
     public init(filter: String) {
         self.filter = filter
-        
+
         switch filter {
         case "CIPhotoEffectNoir":
-            self.name = "Noir"
+            name = "Noir"
         case "CIPhotoEffectChrome":
-            self.name = "Chrome"
+            name = "Chrome"
         case "CIPhotoEffectFade":
-            self.name = "Fade"
+            name = "Fade"
         case "CIPhotoEffectInstant":
-            self.name = "Instant"
+            name = "Instant"
         case "CIPhotoEffectMono":
-            self.name = "Mono"
+            name = "Mono"
         case "CIPhotoEffectProcess":
-            self.name = "Process"
+            name = "Process"
         case "CIPhotoEffectTonal":
-            self.name = "Tonal"
+            name = "Tonal"
         case "CIPhotoEffectTransfer":
-            self.name = "Transfer"
+            name = "Transfer"
         case "CISepiaTone":
-            self.name = "Sepia"
+            name = "Sepia"
         case "CIThermal":
-            self.name = "Thermal"
+            name = "Thermal"
         case "CIVignette":
-            self.name = "Vigantte"
+            name = "Vigantte"
         case "CIXRay":
-            self.name = "Xray"
+            name = "Xray"
         case "CIColorInvert":
-            self.name = "Invert"
+            name = "Invert"
         default:
-            self.name = ""
+            name = ""
         }
     }
 }
