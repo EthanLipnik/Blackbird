@@ -142,11 +142,13 @@ public struct BlackbirdView: NSViewRepresentable {
     public func makeNSView(context _: Context) -> UIBlackbirdView {
         let view = UIBlackbirdView()
         view.image = image
+        view.setNeedsDisplay(view.visibleRect)
         return view
     }
 
     public func updateNSView(_ nsView: UIBlackbirdView, context _: Context) {
         nsView.image = image
+        nsView.setNeedsDisplay(nsView.visibleRect)
     }
 }
 #else
@@ -161,11 +163,13 @@ public struct BlackbirdView: UIViewRepresentable {
     public func makeUIView(context _: Context) -> UIBlackbirdView {
         let view = UIBlackbirdView()
         view.image = image
+        view.setNeedsDisplay()
         return view
     }
 
     public func updateUIView(_ uiView: UIBlackbirdView, context _: Context) {
         uiView.image = image
+        uiVIew.setNeedsDisplay()
     }
 }
 #endif
